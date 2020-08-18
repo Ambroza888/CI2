@@ -28,6 +28,12 @@
     "ci2-e2e": {
       "tags": [],
       "implicitDependencies": ["ci2"]
+    },
+    "express-app-1": {
+      "tags": []
+    },
+    "express-app-2": {
+      "tags": []
     }
   }
 }
