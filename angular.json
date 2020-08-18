@@ -127,6 +127,7 @@
         "build": {
           "builder": "@nrwl/node:build",
           "options": {
+            "webpackConfig": "webpack.config.js",
             "outputPath": "dist/apps/express-app-1",
             "main": "apps/express-app-1/src/main.ts",
             "tsConfig": "apps/express-app-1/tsconfig.app.json",
@@ -182,6 +183,7 @@
         "build": {
           "builder": "@nrwl/node:build",
           "options": {
+            "webpackConfig": "webpack.config.js",
             "outputPath": "dist/apps/express-app-2",
             "main": "apps/express-app-2/src/main.ts",
             "tsConfig": "apps/express-app-2/tsconfig.app.json",
