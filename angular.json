@@ -229,6 +229,61 @@
           }
         }
       }
+    },
+    "express-app-3": {
+      "root": "apps/express-app-3",
+      "sourceRoot": "apps/express-app-3/src",
+      "projectType": "application",
+      "prefix": "express-app-3",
+      "schematics": {},
+      "architect": {
+        "build": {
+          "builder": "@nrwl/node:build",
+          "options": {
+            "outputPath": "dist/apps/express-app-3",
+            "main": "apps/express-app-3/src/main.ts",
+            "tsConfig": "apps/express-app-3/tsconfig.app.json",
+            "assets": ["apps/express-app-3/src/assets"]
+          },
+          "configurations": {
+            "production": {
+              "optimization": true,
+              "extractLicenses": true,
+              "inspect": false,
+              "fileReplacements": [
+                {
+                  "replace": "apps/express-app-3/src/environments/environment.ts",
+                  "with": "apps/express-app-3/src/environments/environment.prod.ts"
+                }
+              ]
+            }
+          }
+        },
+        "serve": {
+          "builder": "@nrwl/node:execute",
+          "options": {
+            "buildTarget": "express-app-3:build"
+          }
+        },
+        "lint": {
+          "builder": "@angular-devkit/build-angular:tslint",
+          "options": {
+            "tsConfig": [
+              "apps/express-app-3/tsconfig.app.json",
+              "apps/express-app-3/tsconfig.spec.json"
+            ],
+            "exclude": ["**/node_modules/**", "!apps/express-app-3/**/*"]
+          }
+        },
+        "test": {
+          "builder": "@nrwl/jest:jest",
+          "options": {
+            "jestConfig": "apps/express-app-3/jest.config.js",
+            "tsConfig": "apps/express-app-3/tsconfig.spec.json",
+            "passWithNoTests": true
+          }
+        }
+      }
     }
   },
   "cli": {
