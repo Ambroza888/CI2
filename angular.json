@@ -240,6 +240,7 @@
         "build": {
           "builder": "@nrwl/node:build",
           "options": {
+            "webpackConfig": "webpack.config.js",
             "outputPath": "dist/apps/express-app-3",
             "main": "apps/express-app-3/src/main.ts",
             "tsConfig": "apps/express-app-3/tsconfig.app.json",
