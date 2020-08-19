@@ -7,7 +7,7 @@ import { environment } from './environments/environment';
 
 const app = express();
 
-app.get('/api', (req, res) => {
+app.get('/', (req, res) => {
   res.send({ message: 'Welcome to express-app-3!' });
 });
 
