@@ -3,16 +3,18 @@ const GeneratePackageJsonPlugin = require('generate-package-json-webpack-plugin'
 const path = require('path');
 const packageJson = require('./package.json');
 const glob = require('glob');
-
+const nodeExternals = require('webpack-node-externals');
 /**
  * Extend the default Webpack configuration from nx / ng.
  */
 module.exports = (config, context) => {
-     // Extract output path from context
+  // Extract output path from context
   const {
-    options: { outputPath, sourceRoot },
+    options: {
+      outputPath,
+      sourceRoot
+    },
   } = context;
-
   // Install additional plugins
   config.plugins = config.plugins || [];
   config.plugins.push(...extractRelevantNodeModules(outputPath, sourceRoot));
@@ -45,11 +47,19 @@ function extractRelevantNodeModules(outputPath, sourceRoot) {
  * @returns {*} A Webpack plugin
  */
 function copyPackageLockFile(outputPath, sourceRoot) {
-    let paths = [{ from: 'package-lock.json', to: path.join(outputPath, 'package-lock.json') }];
-    if (glob.sync(path.join(sourceRoot, '/app.yaml')).length > 0) {
-        paths.push({ from: path.join(sourceRoot, '/app.yaml'), to: path.join(outputPath, 'app.yaml') });
-    }
-    return new CopyPlugin({patterns: paths});
+  let paths = [{
+    from: 'package-lock.json',
+    to: path.join(outputPath, 'package-lock.json')
+  }];
+  if (glob.sync(path.join(sourceRoot, '/app.yaml')).length > 0) {
+    paths.push({
+      from: path.join(sourceRoot, '/app.yaml'),
+      to: path.join(outputPath, 'app.yaml')
+    });
+  }
+  return new CopyPlugin({
+    patterns: paths
+  });
 }
 
 /**
@@ -72,12 +82,31 @@ function generatePackageJson() {
   }, {});
   // const dependencies = packageJson.dependencies;
   const scripts = {
-      start: " node main.js",
-    }
+    start: " node main.js",
+  }
   const basePackageJson = {
     scripts,
     dependencies,
   };
   const pathToPackageJson = path.join(__dirname, 'package.json');
   return new GeneratePackageJsonPlugin(basePackageJson, pathToPackageJson);
+}
+
+function tt() {
+  return {
+    mode: 'production',
+    target: 'node',
+    entry: './apps/express-app-5/src/main.ts',
+    node: {
+      fs: 'empty'
+    },
+    externals: [nodeExternals()], // // IT IS BEST PRACTICE TO EXLUDE NODE_MODULES WHEN BUNDLING FOR A BACKEND APP
+    resolve: {
+      extensions: ['.ts', '.js']
+    },
+    output: {
+      filename: 'bundle.js',
+      path: path.resolve(__dirname, 'build')
+    }
+  }
 }

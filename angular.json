@@ -341,6 +341,63 @@
           }
         }
       }
+    },
+    "express-app-5": {
+      "root": "apps/express-app-5",
+      "sourceRoot": "apps/express-app-5/src",
+      "projectType": "application",
+      "prefix": "express-app-5",
+      "schematics": {},
+      "architect": {
+        "build": {
+          "builder": "@nrwl/node:build",
+          "options": {
+            "webpackConfig": "webpack.config.js",
+            "outputPath": "dist/apps/express-app-5",
+            "main": "apps/express-app-5/src/main.ts",
+            "tsConfig": "apps/express-app-5/tsconfig.app.json",
+            "assets": ["apps/express-app-5/src/assets"]
+            
+          },
+          "configurations": {
+            "production": {
+              "optimization": true,
+              "extractLicenses": true,
+              "inspect": false,
+              "fileReplacements": [
+                {
+                  "replace": "apps/express-app-5/src/environments/environment.ts",
+                  "with": "apps/express-app-5/src/environments/environment.prod.ts"
+                }
+              ]
+            }
+          }
+        },
+        "serve": {
+          "builder": "@nrwl/node:execute",
+          "options": {
+            "buildTarget": "express-app-5:build"
+          }
+        },
+        "lint": {
+          "builder": "@angular-devkit/build-angular:tslint",
+          "options": {
+            "tsConfig": [
+              "apps/express-app-5/tsconfig.app.json",
+              "apps/express-app-5/tsconfig.spec.json"
+            ],
+            "exclude": ["**/node_modules/**", "!apps/express-app-5/**/*"]
+          }
+        },
+        "test": {
+          "builder": "@nrwl/jest:jest",
+          "options": {
+            "jestConfig": "apps/express-app-5/jest.config.js",
+            "tsConfig": "apps/express-app-5/tsconfig.spec.json",
+            "passWithNoTests": true
+          }
+        }
+      }
     }
   },
   "cli": {
