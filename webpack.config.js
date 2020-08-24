@@ -20,7 +20,6 @@ module.exports = (config, context) => {
   // Install additional plugins
   config.plugins = config.plugins || [];
   config.plugins.push(...extractRelevantNodeModules(outputPath, sourceRoot));
-  tt();
   return config;
 };
 
@@ -38,7 +37,7 @@ module.exports = (config, context) => {
  * @returns {Array} An array of Webpack plugins
  */
 function extractRelevantNodeModules(outputPath, sourceRoot) {
-  return [copyPackageLockFile(outputPath, sourceRoot), generatePackageJson()];
+  return [copyPackageLockFile(outputPath, sourceRoot), generatePackageJson(),tt()];
 }
 
 /**
@@ -71,18 +70,18 @@ function copyPackageLockFile(outputPath, sourceRoot) {
  * @returns {*} A Webpack plugin
  */
 function generatePackageJson() {
-  const implicitDeps = [
-    'class-transformer',
-    'class-validator',
-    '@nestjs/platform-express',
-    'reflect-metadata',
-    'source-map-support'
-  ];
-  const dependencies = implicitDeps.reduce((acc, dep) => {
-    acc[dep] = packageJson.dependencies[dep];
-    return acc;
-  }, {});
-  // const dependencies = packageJson.dependencies;
+  // const implicitDeps = [
+  //   'class-transformer',
+  //   'class-validator',
+  //   '@nestjs/platform-express',
+  //   'reflect-metadata',
+  //   'source-map-support'
+  // ];
+  // const dependencies = implicitDeps.reduce((acc, dep) => {
+  //   acc[dep] = packageJson.dependencies[dep];
+  //   return acc;
+  // }, {});
+  const dependencies = packageJson.dependencies;
   const scripts = {
     start: " node main.js",
   }
@@ -95,22 +94,38 @@ function generatePackageJson() {
 }
 
 function tt() {
-  return {
+  return new MinifyPlugin({},{
+    comments: false,
     target: 'node',
-    entry: './apps/express-app-5/src/main.ts',
-    node: {
+        node: {
       fs: 'empty'
     },
-    externals: [nodeExternals()], // // IT IS BEST PRACTICE TO EXLUDE NODE_MODULES WHEN BUNDLING FOR A BACKEND APP
-    resolve: {
+        resolve: {
       extensions: ['.js','.ts']
     },
-    output: {
-      filename: 'bundle.js',
-      path: path.resolve(__dirname, 'build')
-    }
-  }
+    externals: [nodeExternals()],
+  });
 };
+  // {
+  //   target: 'node',
+  //   entry: './apps/express-app-5/src/main.ts',
+  //   node: {
+  //     fs: 'empty'
+  //   },
+  //   externals: [nodeExternals()], // // IT IS BEST PRACTICE TO EXLUDE NODE_MODULES WHEN BUNDLING FOR A BACKEND APP
+  //   resolve: {
+  //     extensions: ['.js','.ts']
+  //   },
+  //   output: {
+  //     filename: 'bundle.js',
+  //     path: path.resolve(__dirname, 'build')
+  //   },
+  //   plugins: [
+  //     new MinifyPlugin({}, {
+  //       comments:false
+  //     })
+  //   ]
+  // }
   // return {
   //   target: 'node',
   //   entry: './dist/dope-cloud-webhook/app.js',
