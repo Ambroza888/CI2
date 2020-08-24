@@ -100,10 +100,10 @@ function tt() {
         node: {
       fs: 'empty'
     },
-        resolve: {
-      extensions: ['.js','.ts']
-    },
     externals: [nodeExternals()],
+    resolve: {
+        extensions: ['.js','.ts']
+      },
   });
 };
   // {
