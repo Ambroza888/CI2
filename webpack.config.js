@@ -1,5 +1,7 @@
 const CopyPlugin = require('copy-webpack-plugin');
 const GeneratePackageJsonPlugin = require('generate-package-json-webpack-plugin');
+const MinifyPlugin = require("babel-minify-webpack-plugin");
+
 const path = require('path');
 const packageJson = require('./package.json');
 const glob = require('glob');
@@ -18,7 +20,7 @@ module.exports = (config, context) => {
   // Install additional plugins
   config.plugins = config.plugins || [];
   config.plugins.push(...extractRelevantNodeModules(outputPath, sourceRoot));
-
+  tt();
   return config;
 };
 
@@ -94,7 +96,6 @@ function generatePackageJson() {
 
 function tt() {
   return {
-    mode: 'production',
     target: 'node',
     entry: './apps/express-app-5/src/main.ts',
     node: {
@@ -102,11 +103,26 @@ function tt() {
     },
     externals: [nodeExternals()], // // IT IS BEST PRACTICE TO EXLUDE NODE_MODULES WHEN BUNDLING FOR A BACKEND APP
     resolve: {
-      extensions: ['.ts', '.js']
+      extensions: ['.js','.ts']
     },
     output: {
       filename: 'bundle.js',
       path: path.resolve(__dirname, 'build')
     }
   }
-}
+};
+  // return {
+  //   target: 'node',
+  //   entry: './dist/dope-cloud-webhook/app.js',
+  //   node: {
+  //     fs: 'empty'
+  //   },
+  //   externals: [nodeExternals()], // // IT IS BEST PRACTICE TO EXLUDE NODE_MODULES WHEN BUNDLING FOR A BACKEND APP
+  //   resolve: {
+  //     extensions: ['.js']
+  //   },
+  //   output: {
+  //     filename: 'bundle.js',
+  //     path: path.resolve(__dirname, 'build')
+  //   }
+  // }
