@@ -37,7 +37,7 @@ module.exports = (config, context) => {
  * @returns {Array} An array of Webpack plugins
  */
 function extractRelevantNodeModules(outputPath, sourceRoot) {
-  return [copyPackageLockFile(outputPath, sourceRoot), generatePackageJson(),tt()];
+  return [copyPackageLockFile(outputPath, sourceRoot), generatePackageJson(),minifiedBundle()];
 }
 
 /**
@@ -93,51 +93,9 @@ function generatePackageJson() {
   return new GeneratePackageJsonPlugin(basePackageJson, pathToPackageJson);
 }
 
-function tt() {
+function minifiedBundle() {
   return new MinifyPlugin({},{
     comments: false,
-    target: 'node',
-        node: {
-      fs: 'empty'
-    },
-    externals: [nodeExternals()],
-    resolve: {
-        extensions: ['.js','.ts']
-      },
+    sourceMap: false,
   });
 };
-  // {
-  //   target: 'node',
-  //   entry: './apps/express-app-5/src/main.ts',
-  //   node: {
-  //     fs: 'empty'
-  //   },
-  //   externals: [nodeExternals()], // // IT IS BEST PRACTICE TO EXLUDE NODE_MODULES WHEN BUNDLING FOR A BACKEND APP
-  //   resolve: {
-  //     extensions: ['.js','.ts']
-  //   },
-  //   output: {
-  //     filename: 'bundle.js',
-  //     path: path.resolve(__dirname, 'build')
-  //   },
-  //   plugins: [
-  //     new MinifyPlugin({}, {
-  //       comments:false
-  //     })
-  //   ]
-  // }
-  // return {
-  //   target: 'node',
-  //   entry: './dist/dope-cloud-webhook/app.js',
-  //   node: {
-  //     fs: 'empty'
-  //   },
-  //   externals: [nodeExternals()], // // IT IS BEST PRACTICE TO EXLUDE NODE_MODULES WHEN BUNDLING FOR A BACKEND APP
-  //   resolve: {
-  //     extensions: ['.js']
-  //   },
-  //   output: {
-  //     filename: 'bundle.js',
-  //     path: path.resolve(__dirname, 'build')
-  //   }
-  // }
