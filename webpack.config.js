@@ -70,18 +70,12 @@ function copyPackageLockFile(outputPath, sourceRoot) {
  * @returns {*} A Webpack plugin
  */
 function generatePackageJson() {
-  // const implicitDeps = [
-  //   'class-transformer',
-  //   'class-validator',
-  //   '@nestjs/platform-express',
-  //   'reflect-metadata',
-  //   'source-map-support'
-  // ];
-  // const dependencies = implicitDeps.reduce((acc, dep) => {
-  //   acc[dep] = packageJson.dependencies[dep];
-  //   return acc;
-  // }, {});
-  const dependencies = packageJson.dependencies;
+  let dependencies = {};
+  for (const property in packageJson.dependencies) {
+    if ( property[0] !== '@') {
+      dependencies[property] = packageJson.dependencies[property];
+    }
+  }
   const scripts = {
     start: " node main.js",
   }
