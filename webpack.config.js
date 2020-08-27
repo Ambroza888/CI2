@@ -5,14 +5,13 @@ const packageJson = require('./package.json');
 const glob = require('glob');
 const MinifyPlugin = require("babel-minify-webpack-plugin");
 
-const VESO = require('./config');
+import { VESO } from './config';
 const isProduction = process.env.NODE_ENV === 'production';
 /**
  * Extend the default Webpack configuration from nx / ng.
  */
 module.exports = (config, context) => {
      // Extract output path from context
-     console.log(process.env.VESO_ENV)
   const {
     options: { outputPath, sourceRoot },
   } = context;
