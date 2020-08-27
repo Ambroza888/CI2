@@ -8,5 +8,4 @@ steps:
 - name: 'gcr.io/cloud-builders/gcloud'
   args: ['app', 'deploy', 'dist/apps/express-app-1/app.yaml', '-v', '$_MY_PRODUCTION']
   timeout: '1600s'
-
   # npm run build express-app-1
