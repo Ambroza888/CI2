@@ -5,6 +5,7 @@ const packageJson = require('./package.json');
 const glob = require('glob');
 const MinifyPlugin = require("babel-minify-webpack-plugin");
 
+const VESO = require('./config');
 const isProduction = process.env.NODE_ENV === 'production';
 /**
  * Extend the default Webpack configuration from nx / ng.
@@ -37,7 +38,7 @@ module.exports = (config, context) => {
  * @returns {Array} An array of Webpack plugins
  */
 function extractRelevantNodeModules(outputPath, sourceRoot) {
-  if (process.env.VESO === 'production') {
+  if (VESO === 'production') {
     return [copyPackageLockFile(outputPath, sourceRoot),generatePackageJson(),minifiedBundle()];
   } else {
     return [copyPackageLockFile(outputPath, sourceRoot), generatePackageJson()];
