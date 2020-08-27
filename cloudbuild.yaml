@@ -4,6 +4,11 @@ steps:
   args: ['install']
 - name: node
   entrypoint: npm
+  args: ["run", "create-env"]
+  env:
+    - 'VESO_ENV=${_MY_PRODUCTION}'
+- name: node
+  entrypoint: npm
   args: ['run','build-prod','express-app-1']
 - name: 'gcr.io/cloud-builders/gcloud'
   args: ['app', 'deploy', 'dist/apps/express-app-1/app.yaml']

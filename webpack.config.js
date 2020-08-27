@@ -11,6 +11,7 @@ const isProduction = process.env.NODE_ENV === 'production';
  */
 module.exports = (config, context) => {
      // Extract output path from context
+     console.log(process.env.VESO_ENV)
   const {
     options: { outputPath, sourceRoot },
   } = context;
@@ -36,7 +37,7 @@ module.exports = (config, context) => {
  * @returns {Array} An array of Webpack plugins
  */
 function extractRelevantNodeModules(outputPath, sourceRoot) {
-  if (isProduction) {
+  if (process.env.VESO_ENV === 'production') {
     return [copyPackageLockFile(outputPath, sourceRoot),generatePackageJson(),minifiedBundle()];
   } else {
     return [copyPackageLockFile(outputPath, sourceRoot), generatePackageJson()];
