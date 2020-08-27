@@ -2,11 +2,11 @@ steps:
 - name: node
   entrypoint: npm
   args: ['install']
-- name: node
+- name: node:10.15.1
   entrypoint: npm
   args: ["run", "create-env"]
   env:
-    - 'VESO_ENV=${_MY_PRODUCTION}'
+    - 'VESO=${_MY_PRODUCTION}'
 - name: node
   entrypoint: npm
   args: ['run','build-prod','express-app-1']
