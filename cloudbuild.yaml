@@ -3,10 +3,10 @@ steps:
   entrypoint: npm
   args: ['install']
 - name: node
-  entrypoint: nx
-  args: ['build','express-app-5']
-# - name: 'gcr.io/cloud-builders/gcloud'
-#   args: ['app', 'deploy', 'dist/apps/express-app-1/app.yaml']
-#   timeout: '1600s'
+  entrypoint: npm
+  args: ['run','build-prod','express-app-5']
+- name: 'gcr.io/cloud-builders/gcloud'
+  args: ['app', 'deploy', 'dist/apps/express-app-5/app.yaml']
+  timeout: '1600s'
 
   # npm run build express-app-1

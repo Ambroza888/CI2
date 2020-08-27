@@ -1,25 +1,24 @@
 const CopyPlugin = require('copy-webpack-plugin');
 const GeneratePackageJsonPlugin = require('generate-package-json-webpack-plugin');
-const MinifyPlugin = require("babel-minify-webpack-plugin");
-
 const path = require('path');
 const packageJson = require('./package.json');
 const glob = require('glob');
-const nodeExternals = require('webpack-node-externals');
+const MinifyPlugin = require("babel-minify-webpack-plugin");
+
+const isProduction = process.env.NODE_ENV === 'production';
 /**
  * Extend the default Webpack configuration from nx / ng.
  */
 module.exports = (config, context) => {
-  // Extract output path from context
+     // Extract output path from context
   const {
-    options: {
-      outputPath,
-      sourceRoot
-    },
+    options: { outputPath, sourceRoot },
   } = context;
+
   // Install additional plugins
   config.plugins = config.plugins || [];
   config.plugins.push(...extractRelevantNodeModules(outputPath, sourceRoot));
+
   return config;
 };
 
@@ -37,7 +36,11 @@ module.exports = (config, context) => {
  * @returns {Array} An array of Webpack plugins
  */
 function extractRelevantNodeModules(outputPath, sourceRoot) {
-  return [copyPackageLockFile(outputPath, sourceRoot), generatePackageJson(),minifiedBundle()];
+  if (isProduction) {
+    return [copyPackageLockFile(outputPath, sourceRoot),generatePackageJson(),minifiedBundle()];
+  } else {
+    return [copyPackageLockFile(outputPath, sourceRoot), generatePackageJson()];
+  }
 }
 
 /**
@@ -48,19 +51,11 @@ function extractRelevantNodeModules(outputPath, sourceRoot) {
  * @returns {*} A Webpack plugin
  */
 function copyPackageLockFile(outputPath, sourceRoot) {
-  let paths = [{
-    from: 'package-lock.json',
-    to: path.join(outputPath, 'package-lock.json')
-  }];
-  if (glob.sync(path.join(sourceRoot, '/app.yaml')).length > 0) {
-    paths.push({
-      from: path.join(sourceRoot, '/app.yaml'),
-      to: path.join(outputPath, 'app.yaml')
-    });
-  }
-  return new CopyPlugin({
-    patterns: paths
-  });
+    let paths = [{ from: 'package-lock.json', to: path.join(outputPath, 'package-lock.json') }];
+    if (glob.sync(path.join(sourceRoot, '/app.yaml')).length > 0) {
+        paths.push({ from: path.join(sourceRoot, '/app.yaml'), to: path.join(outputPath, 'app.yaml') });
+    }
+    return new CopyPlugin({patterns: paths});
 }
 
 /**
@@ -70,22 +65,30 @@ function copyPackageLockFile(outputPath, sourceRoot) {
  * @returns {*} A Webpack plugin
  */
 function generatePackageJson() {
+  let frontendDependencies = [
+    'angular', 
+    'ionic',
+    '@ngrx',
+    'ngx',
+    'capacitor'
+  ]
   let dependencies = {};
   for (const property in packageJson.dependencies) {
-    if ( property[0] !== '@') {
+    if ( !frontendDependencies.some(frontendDependencies => property.includes(frontendDependencies))) {
       dependencies[property] = packageJson.dependencies[property];
     }
   }
+
   const scripts = {
-    start: " node main.js",
-  }
+      start: "node main.js",
+    }
   const basePackageJson = {
     scripts,
     dependencies,
   };
   const pathToPackageJson = path.join(__dirname, 'package.json');
   return new GeneratePackageJsonPlugin(basePackageJson, pathToPackageJson);
-}
+};
 
 function minifiedBundle() {
   return new MinifyPlugin({},{
