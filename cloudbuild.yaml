@@ -2,14 +2,9 @@ steps:
 - name: node
   entrypoint: npm
   args: ['install']
-- name: node:10.15.1
-  entrypoint: npm
-  args: ["run", "create-env"]
-  env:
-    - 'VESO=${_MY_PRODUCTION}'
 - name: node
   entrypoint: npm
-  args: ['run','build','express-app-1']
+  args: ['run','build-prod','express-app-1']
 - name: 'gcr.io/cloud-builders/gcloud'
   args: ['app', 'deploy', 'dist/apps/express-app-1/app.yaml']
   timeout: '1600s'
