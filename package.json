@@ -54,6 +54,7 @@
     "@nrwl/jest": "10.0.12",
     "@nrwl/node": "10.0.12",
     "@nrwl/workspace": "10.0.12",
+    "@types/dotenv": "^8.2.0",
     "@types/express": "4.17.0",
     "@types/jest": "25.1.4",
     "@types/node": "~8.9.4",
