@@ -2,6 +2,8 @@ steps:
 - name: node
   entrypoint: npm
   args: ['install']
+- name: 'gcr.io/cloud-builders/git'
+  args: ['fetch', '--all']
 - name: node
   entrypoint: npm
   args: ['run','affected']
