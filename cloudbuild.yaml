@@ -5,7 +5,7 @@ steps:
 - name: 'gcr.io/cloud-builders/npm'
   args: ["run", "create-env"]
   env:
-    - 'MY_ENV_VAR=${_MY_PRODUCTION}'
+    - 'MY_ENV_VAR=${_MY_PROD}'
 - name: node
   entrypoint: npm
   args: ['run','build-prod','express-app-1']
