@@ -80,9 +80,6 @@ function generatePackageJson() {
 
   const scripts = {
       "start": "node main.js",
-      "create-env": "printenv > .env",
-      "build-prod": "set NODE_ENV=production&& ng build --prod",
-
     }
   const basePackageJson = {
     scripts,
