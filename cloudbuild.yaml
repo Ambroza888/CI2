@@ -9,7 +9,7 @@ steps:
     - 'MY_ENV_VAR=${_MY_VERSION}'
 - name: node
   entrypoint: npm
-  args: ['run','build-prod','express-app-2']
+  args: ['run','build', '--prod','express-app-2']
 - name: 'gcr.io/cloud-builders/gcloud'
   args: ['app', 'deploy', 'dist/apps/express-app-2/app.yaml', '-v', '$_MY_VERSION']
   timeout: '1600s'
