@@ -4,7 +4,7 @@ steps:
   args: ['install']
 - name: node
   entrypoint: npm
-  args: ['run','build-patch','express-app-4']
+  args: ['run','affected:build']
 # - name: node
 #   entrypoint: npm
 #   args: ["run", "create-env"]
