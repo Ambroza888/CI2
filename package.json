@@ -9,6 +9,7 @@
     "start": "ng serve",
     "build": "ng build",
     "create-env": "printenv > .env",
+    "build-prod": "set NODE_ENV=production&& ng build --prod",
     "test": "ng test",
     "lint": "nx workspace-lint && ng lint",
     "e2e": "ng e2e",

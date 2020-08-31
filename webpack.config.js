@@ -4,8 +4,9 @@ const path = require('path');
 const packageJson = require('./package.json');
 const glob = require('glob');
 const MinifyPlugin = require("babel-minify-webpack-plugin");
-
-const isVariable = process.env.MY_ENV_VAR === 'production'
+// const tt = require('./config');
+// import { MY_PROD } from './config';
+const isProduction = process.env.MY_PROD === 'production'
 /**
  * Extend the default Webpack configuration from nx / ng.
  */
@@ -36,7 +37,7 @@ module.exports = (config, context) => {
  * @returns {Array} An array of Webpack plugins
  */
 function extractRelevantNodeModules(outputPath, sourceRoot) {
-  if (isVariable) {
+  if (isProduction) {
     return [copyPackageLockFile(outputPath, sourceRoot),generatePackageJson(),minifiedBundle()];
   } else {
     return [copyPackageLockFile(outputPath, sourceRoot), generatePackageJson()];
