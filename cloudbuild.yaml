@@ -4,7 +4,7 @@ steps:
   args: ['install']
 - name: node
   entrypoint: npm
-  args: ['run','affected:build']
+  args: ['run','affected']
 # - name: node
 #   entrypoint: npm
 #   args: ["run", "create-env"]
