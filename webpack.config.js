@@ -6,8 +6,6 @@ const glob = require('glob');
 const MinifyPlugin = require("babel-minify-webpack-plugin");
 
 const isProduction = process.env.NODE_ENV === 'production';
-
-import { MY_ENV_VAR } from './config.ts';
 /**
  * Extend the default Webpack configuration from nx / ng.
  */
@@ -38,7 +36,7 @@ module.exports = (config, context) => {
  * @returns {Array} An array of Webpack plugins
  */
 function extractRelevantNodeModules(outputPath, sourceRoot) {
-  if (MY_ENV_VAR == 'werockbro') {
+  if (isProduction) {
     return [copyPackageLockFile(outputPath, sourceRoot),generatePackageJson(),minifiedBundle()];
   } else {
     return [copyPackageLockFile(outputPath, sourceRoot), generatePackageJson()];
@@ -82,7 +80,10 @@ function generatePackageJson() {
   }
 
   const scripts = {
-      start: "node main.js",
+      "start": "node main.js",
+      "create-env": "printenv > .env",
+      "build-prod": "set NODE_ENV=production&& ng build --prod",
+
     }
   const basePackageJson = {
     scripts,
