@@ -5,8 +5,6 @@ const packageJson = require('./package.json');
 const glob = require('glob');
 const MinifyPlugin = require("babel-minify-webpack-plugin");
 
-const isProduction = process.env.NODE_ENV === 'production';
-
 const isVariable = process.env.MY_ENV_VAR === 'production'
 /**
  * Extend the default Webpack configuration from nx / ng.

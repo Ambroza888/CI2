@@ -6,10 +6,11 @@ steps:
   args: ["run", "create-env"]
   env:
     - 'MY_ENV_VAR=${_MY_PROD}'
+    - 'MY_ENV_VAR=${_MY_VERSION}'
 - name: node
   entrypoint: npm
-  args: ['run','build-prod','express-app-1']
+  args: ['run','build-prod','express-app-2']
 - name: 'gcr.io/cloud-builders/gcloud'
-  args: ['app', 'deploy', 'dist/apps/express-app-1/app.yaml', '-v', '$_MY_PRODUCTION']
+  args: ['app', 'deploy', 'dist/apps/express-app-2/app.yaml', '-v', '$_MY_VERSION']
   timeout: '1600s'
   # npm run build express-app-1
