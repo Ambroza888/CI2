@@ -17,7 +17,12 @@
     "default": {
       "runner": "@nrwl/workspace/tasks-runners/default",
       "options": {
-        "cacheableOperations": ["build", "lint", "test", "e2e"]
+        "cacheableOperations": [
+          "build",
+          "lint",
+          "test",
+          "e2e"
+        ]
       }
     }
   },
@@ -27,7 +32,9 @@
     },
     "ci2-e2e": {
       "tags": [],
-      "implicitDependencies": ["ci2"]
+      "implicitDependencies": [
+        "ci2"
+      ]
     },
     "express-app-1": {
       "tags": []
@@ -42,6 +49,9 @@
       "tags": []
     },
     "express-app-5": {
+      "tags": []
+    },
+    "myfunc": {
       "tags": []
     }
   }
